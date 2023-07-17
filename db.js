@@ -23,7 +23,9 @@ const updateCategory = (id, ct) => {
   categoryDatabase[ctIndex] = ct;
 };
 
-const getAllTodo = () => {};
-const getAllCategories = () => {};
-const getCategoryById = () => {};
-const getTodoById = () => {};
+// Getters
+const getAllTodo = () => todoDatabase;
+const getAllCategories = () => categoryDatabase;
+const getTodoById = id => todoDatabase.find(t => t.id === id);
+const getCategoryById = id => categoryDatabase.find(c => c.id === id);
+const getAllTodoByCategory = cid => todoDatabase.filter(t => t.categoriesIds.contains(cid));
