@@ -29,3 +29,19 @@ const getAllCategories = () => categoryDatabase;
 const getTodoById = id => todoDatabase.find(t => t.id === id);
 const getCategoryById = id => categoryDatabase.find(c => c.id === id);
 const getAllTodoByCategory = cid => todoDatabase.filter(t => t.categoriesIds.contains(cid));
+
+export default {
+  getAllTodoByCategory,
+  getAllCategories,
+  getCategoryById,
+  createCategory,
+  removeCategory,
+  updateCategory,
+  getTodoById,
+  createTodo,
+  removeTodo,
+  updateTodo,
+  getAllTodo,
+  todoIndex,
+  ctIndex,
+};
