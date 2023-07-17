@@ -100,6 +100,9 @@ function onTaskEdit(id) {
     allTodoList.innerHTML = '';
     const todoArray = db.getAllTodo();
     todoArray.forEach(renderTodo);
+
+    taskUpdateForm.hidden = true;
+    taskForm.hidden = false;
   };
 }
 
