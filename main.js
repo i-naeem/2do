@@ -1,8 +1,9 @@
 import db from './db.js';
 
-const categoryList = document.getElementById('ctl');
 const taskForm = document.getElementById('task-form');
+const taskInput = document.getElementById('task-input');
 const allTodoList = document.getElementById('all-todo-list');
+const taskUpdateForm = document.getElementById('task-update-form');
 
 const categoryNameInput = document.getElementById('cid');
 const categoryForm = document.getElementById('category-form');
@@ -28,16 +29,37 @@ function renderTodo(todo) {
   const t = `
     <p>${todo.text}</p>
     <div class="group">${cts.join(' ')}</div>
-    <div class="group">
-      <button id="done-btn">Done</button>
-      <button id="edit-btn">Edit</button>
-      <button id="remove-btn">Remove</button>
-    </div>
+    
   `;
 
+  const btnGroup = document.createElement('div');
+  btnGroup.className = 'group';
+  const editBtn = document.createElement('button');
+  const doneBtn = document.createElement('button');
+  const removeBtn = document.createElement('button');
+
+  editBtn.innerText = 'Edit';
+  editBtn.onclick = () => {
+    onTaskEdit(todo.id);
+  };
+
+  doneBtn.innerText = 'Done';
+  doneBtn.onclick = () => {
+    onTaskDone(todo.id);
+  };
+
+  removeBtn.innerText = 'Remove';
+  removeBtn.onclick = () => {
+    onTaskRemove(todo.id);
+  };
+
+  [editBtn, doneBtn, removeBtn].forEach(b => btnGroup.appendChild(b));
+
   liItem.innerHTML = t;
+  liItem.appendChild(btnGroup);
   allTodoList.appendChild(liItem);
 }
+
 function renderCategory(ct) {
   let option = document.createElement('option');
   option.value = ct.id;
@@ -45,22 +67,33 @@ function renderCategory(ct) {
   categorySelector.appendChild(option);
 }
 
-const onTaskAdd = event => {
+function onTaskAdd(event) {
   event.preventDefault();
-  const fd = new FormData(taskForm);
-  const text = fd.get('task-input');
-  const cid = fd.get('category-selector');
+  const text = taskInput.value;
+  const cid = categorySelector.value;
   const taskId = todoIdCounter++;
 
   db.createTodo({ text: text, id: taskId, categoryIds: [Number(cid)] });
 
   renderTodo({ text: text, id: taskId, categoryIds: [Number(cid)] });
-};
 
-const onTaskRemove = () => {};
-const onTaskUpdated = () => {};
+  taskInput.value = '';
+  categorySelector.value = '0';
+}
 
-const onCategoryAdd = event => {
+function onTaskEdit(id) {
+  const task = db.getTodoById(Number(id));
+  taskForm.hidden = true;
+  taskUpdateForm.hidden = false;
+
+  const input = taskUpdateForm.querySelector('input');
+  const select = taskUpdateForm.querySelector('select');
+
+  input.value = task.text;
+  select.value = task.categoryIds[0];
+}
+
+function onCategoryAdd(event) {
   event.preventDefault();
   const cname = categoryNameInput.value;
   const cid = categoryIdCounter++;
@@ -69,7 +102,7 @@ const onCategoryAdd = event => {
   renderCategory({ name: cname, id: cid });
 
   categoryNameInput.value = '';
-};
+}
 
 categoryForm.addEventListener('submit', onCategoryAdd);
 taskForm.addEventListener('submit', onTaskAdd);

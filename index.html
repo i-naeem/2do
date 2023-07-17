@@ -10,7 +10,7 @@
       padding: 5px;
     }
 
-    .group > span:not(:first-child) {
+    .group > *:not(:first-child) {
       margin-left: 5px;
     }
     .group > span {
@@ -28,19 +28,26 @@
 
     <section>
       <main>
-        <section>
+        <section class="forms">
           <form id="category-form">
             <input id="cid" placeholder="Enter the category name" required />
             <button type="submit">Add Category</button>
           </form>
           <br /><br />
           <form id="task-form">
-            <input type="text" name="task-input" placeholder="Enter your task" required />
-            <select id="category-selector" name="category-selector" required>
-              <option value="0">No Category</option>
-            </select>
+            <input type="text" id="task-input" placeholder="Enter your task" required />
+
             <button type="submit">Add Task</button>
           </form>
+
+          <form id="task-update-form" hidden>
+            <input type="text" name="task-update-input" placeholder="Enter your task" required />
+
+            <button type="submit">Update Task</button>
+            <button name="cancel-btn">Cancel</button>
+          </form>
+          <br />
+          <select id="category-selector" name="category-selector" required></select>
         </section>
         <ul id="all-todo-list"></ul>
       </main>
