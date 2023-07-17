@@ -1,7 +1,7 @@
 const todoDatabase = [];
 const categoryDatabase = [];
 
-const createTodo = () => {};
+const createTodo = todo => todoDatabase.push(todo);
 const updateTodo = (id, todo) => {};
 const removeTodo = () => {};
 const addTodo = todo => {};
