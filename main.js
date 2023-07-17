@@ -1,13 +1,16 @@
 import db from './db.js';
 
 const taskForm = document.getElementById('task-form');
-const taskInput = document.getElementById('task-input');
-const allTodoList = document.getElementById('all-todo-list');
+const categoryForm = document.getElementById('category-form');
 const taskUpdateForm = document.getElementById('task-update-form');
 
+const taskInput = document.getElementById('task-input');
+const allTodoList = document.getElementById('all-todo-list');
+
 const categoryNameInput = document.getElementById('cid');
-const categoryForm = document.getElementById('category-form');
 const categorySelector = document.getElementById('category-selector');
+
+const taskUpdateInput = document.getElementById('task-update-input');
 
 const allTodo = db.getAllTodo();
 const allCategories = db.getAllCategories();
@@ -86,11 +89,18 @@ function onTaskEdit(id) {
   taskForm.hidden = true;
   taskUpdateForm.hidden = false;
 
-  const input = taskUpdateForm.querySelector('input');
-  const select = taskUpdateForm.querySelector('select');
+  taskUpdateInput.value = task.text;
+  categorySelector.value = task.categoryIds[0];
 
-  input.value = task.text;
-  select.value = task.categoryIds[0];
+  taskUpdateForm.onsubmit = event => {
+    event.preventDefault();
+    const text = taskUpdateInput.value;
+    const cid = Number(categorySelector.value);
+    db.updateTodo({ id: task.id, text: text, categoryIds: [cid] });
+    allTodoList.innerHTML = '';
+    const todoArray = db.getAllTodo();
+    todoArray.forEach(renderTodo);
+  };
 }
 
 function onCategoryAdd(event) {
