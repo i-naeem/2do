@@ -2,12 +2,16 @@ const todoDatabase = [];
 const categoryDatabase = [];
 
 const createTodo = todo => todoDatabase.push(todo);
+
 const updateTodo = todo => {
   const todoIndex = todoDatabase.findIndex(t => t.id === todo.id);
   todoDatabase[todoIndex] = todo;
 };
 
-const removeTodo = id => {};
+const removeTodo = id => {
+  todoDatabase = todoDatabase.filter(t => t.id !== id);
+};
+
 const addTodo = todo => {};
 
 const createCategory = () => {};
