@@ -1,4 +1,4 @@
-const categoryDatabase = [
+let categoryDatabase = [
   {
     id: 1,
     name: 'Twimm',
@@ -40,7 +40,7 @@ const categoryDatabase = [
     name: 'Buzzbean',
   },
 ];
-const todoDatabase = [
+let todoDatabase = [
   {
     id: 1,
     text: 'Phasellus sit amet erat.',
