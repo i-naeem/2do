@@ -27,7 +27,7 @@ function renderTodo(todoArray) {
   todoArray.forEach(todo => {
     const cts = todo.categoryIds.map(cid => {
       const ct = db.getCategoryById(cid);
-      return `<span>${ct}</span>`;
+      return `<span>${ct.name}</span> `;
     });
 
     const liItem = document.createElement('li');

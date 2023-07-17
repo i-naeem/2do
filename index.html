@@ -5,6 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2DO</title>
   </head>
+  <style>
+    .group {
+      padding: 5px;
+    }
+
+    .group > span:not(:first-child) {
+      margin-left: 5px;
+    }
+    .group > span {
+      padding: 5px;
+      background-color: yellow;
+    }
+  </style>
   <body>
     <section>
       <header></header>
@@ -29,37 +42,7 @@
             <button type="submit">Add Task</button>
           </form>
         </section>
-        <ul id="all-todo-list">
-          <li>
-            <p>Lorem ipsum dolor sit amet.</p>
-            <div class="group"><span>Business</span><span>Personal</span></div>
-            <div class="group">
-              <button>Done</button>
-              <button>Edit</button>
-              <button>Remove</button>
-            </div>
-          </li>
-
-          <li>
-            <p>Lorem ipsum dolor sit amet.</p>
-            <div class="group"><span>Business</span><span>Personal</span></div>
-            <div class="group">
-              <button>Done</button>
-              <button>Edit</button>
-              <button>Remove</button>
-            </div>
-          </li>
-
-          <li>
-            <p>Lorem ipsum dolor sit amet.</p>
-            <div class="group"><span>Business</span><span>Personal</span></div>
-            <div class="group">
-              <button>Done</button>
-              <button>Edit</button>
-              <button>Remove</button>
-            </div>
-          </li>
-        </ul>
+        <ul id="all-todo-list"></ul>
       </main>
     </section>
 
