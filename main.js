@@ -14,43 +14,49 @@ const allCategories = db.getAllCategories();
 let todoIdCounter = allTodo.length + 1;
 let categoryIdCounter = allCategories.length + 1;
 
-function renderCategories(categories) {
-  categories.forEach(ct => {
-    let option = document.createElement('option');
-    option.value = ct.id;
-    option.innerText = ct.name;
-    categorySelector.appendChild(option);
+allCategories.forEach(renderCategory);
+allTodo.forEach(renderTodo);
+
+function renderTodo(todo) {
+  const cts = todo.categoryIds.map(cid => {
+    const ct = db.getCategoryById(cid);
+    return `<span>${ct.name}</span> `;
   });
+
+  const liItem = document.createElement('li');
+  liItem.id = todo.id;
+  const t = `
+    <p>${todo.text}</p>
+    <div class="group">${cts.join(' ')}</div>
+    <div class="group">
+      <button id="done-btn">Done</button>
+      <button id="edit-btn">Edit</button>
+      <button id="remove-btn">Remove</button>
+    </div>
+  `;
+
+  liItem.innerHTML = t;
+  allTodoList.appendChild(liItem);
+}
+function renderCategory(ct) {
+  let option = document.createElement('option');
+  option.value = ct.id;
+  option.innerText = ct.name;
+  categorySelector.appendChild(option);
 }
 
-function renderTodo(todoArray) {
-  todoArray.forEach(todo => {
-    const cts = todo.categoryIds.map(cid => {
-      const ct = db.getCategoryById(cid);
-      return `<span>${ct.name}</span> `;
-    });
+const onTaskAdd = event => {
+  event.preventDefault();
+  const fd = new FormData(taskForm);
+  const text = fd.get('task-input');
+  const cid = fd.get('category-selector');
+  const taskId = todoIdCounter++;
 
-    const liItem = document.createElement('li');
-    liItem.id = todo.id;
-    const t = `
-      <p>${todo.text}</p>
-      <div class="group">${cts.join(' ')}</div>
-      <div class="group">
-        <button id="done-btn">Done</button>
-        <button id="edit-btn">Edit</button>
-        <button id="remove-btn">Remove</button>
-      </div>
-    `;
+  db.createTodo({ text: text, id: taskId, categoryIds: [Number(cid)] });
 
-    liItem.innerHTML = t;
-    allTodoList.appendChild(liItem);
-  });
-}
+  renderTodo({ text: text, id: taskId, categoryIds: [Number(cid)] });
+};
 
-renderCategories(allCategories);
-renderTodo(allTodo);
-
-const onTaskAdd = () => {};
 const onTaskRemove = () => {};
 const onTaskUpdated = () => {};
 
@@ -60,11 +66,10 @@ const onCategoryAdd = event => {
   const cid = categoryIdCounter++;
 
   db.createCategory({ name: cname, id: cid });
+  renderCategory({ name: cname, id: cid });
 
-  let cts = db.getAllCategories();
-
-  renderCategories(cts);
   categoryNameInput.value = '';
 };
 
 categoryForm.addEventListener('submit', onCategoryAdd);
+taskForm.addEventListener('submit', onTaskAdd);

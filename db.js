@@ -1,5 +1,9 @@
 let categoryDatabase = [
   {
+    id: 0,
+    name: 'No Category',
+  },
+  {
     id: 1,
     name: 'Twimm',
   },
