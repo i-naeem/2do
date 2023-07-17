@@ -42,6 +42,4 @@ export default {
   removeTodo,
   updateTodo,
   getAllTodo,
-  todoIndex,
-  ctIndex,
 };
